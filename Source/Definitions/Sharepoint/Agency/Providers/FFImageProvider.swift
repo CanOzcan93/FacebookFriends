@@ -18,7 +18,7 @@ open class FFImageProvider {
     public func getLeftArrow() -> UIImage {
         
         guard left_arrow != nil else {
-            left_arrow = UIImage(named: "ic_left_arrow")
+            left_arrow = UIImage(named: "ic_left_arrow_white")
             return left_arrow!
         }
         

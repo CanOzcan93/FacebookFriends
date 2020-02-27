@@ -14,4 +14,13 @@ open class FFDataStorage {
         
     }
     
+    private var user: User?
+    public func storeUser(user: User?) {
+        self.user = user
+    }
+    public func grabUser() -> User? {
+        return self.user
+    }
+    
+    
 }

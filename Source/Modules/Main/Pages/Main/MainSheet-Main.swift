@@ -15,15 +15,19 @@ extension Main {
         public override func onLayoutReady(layout: MainLayout) {
             
             
-            var items = [ListItemView(),ListItemView(),ListItemView()]
-            for item in items {
-                item.addAction {
-                    item.addAction {
+            self.apiManager.getFriendList(userID: self.exchangeFlow.grabUsername()!).done { (user) in
+                var items = [ListItemView]()
+                for friend in user.friendList {
+                    let listItem = ListItemView()
+                    listItem.changeLabels(item: friend)
+                    listItem.addAction {
+                        self.exchangeFlow.letSelectedFriend(friend: friend)
                         self.demonstrator.toDetailSheet()
                     }
+                    items.append(listItem)
                 }
+                layout.lv.replaceItems(items)
             }
-            layout.lv.replaceItems(items)
             
         }
         

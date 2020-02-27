@@ -7,11 +7,9 @@
 //
 
 import Foundation
-//import Alamofire
-//import AlamofireImage
-//import SwiftyJSON
-//import PromiseKit
-//import Firebase
+import Alamofire
+import SwiftyJSON
+import PromiseKit
 
 open class FFApiManager {
     
@@ -45,6 +43,37 @@ open class FFApiManager {
         dataStorage = repository.dataStorage
         persistentStorage = repository.persistentStorage
         exchangeFlow = repository.exchangeFlow
+        
+    }
+    
+    public func getFriendList(userID: String) -> Promise<User> {
+        
+        return Promise(){ seal in
+            Alamofire.request("https://api.myjson.com/bins/\(userID)").validate().responseJSON() { response in
+                switch response.result {
+                    case .success(let jsonData):
+//                        guard let jsonDict = jsonData as? [String:Any] else { return seal.reject(AFError.responseValidationFailed(reason: .dataFileNil)) }
+//                        let jsonDictWithUser = ["username": userID,"friends": jsonDict] as [String : Any]
+//                        let json = JSON(jsonDictWithUser)
+                        var json = JSON()
+                        json["username"] = JSON(userID)
+                        json["friends"] = JSON(jsonData)
+                        
+                        let decoder = JSONDecoder()
+                        do {
+                            let user = try decoder.decode(User.self, from: json.rawData())
+                            seal.fulfill(user)
+                        } catch let error {
+                            seal.reject(error)
+                            print("JSON Decode Error:\n \(error)")
+                        }
+                    case .failure(let error):
+                        seal.reject(error)
+                    
+                }
+            }
+            
+        }
         
     }
 

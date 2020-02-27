@@ -15,8 +15,15 @@ extension Authentication {
         public override func onLayoutReady(layout: MainLayout) {
             
             layout.btn_next.onClick {
-                self.demonstrator.toMainModule()
+                if layout.ti_username.text == "9nd54" || layout.ti_username.text == "v542w" || layout.ti_username.text == "17pcy0" || layout.ti_username.text == "gbf48" || layout.ti_username.text == "zdah4" {
+                    self.exchangeFlow.letUsername(username: layout.ti_username.text!)
+                    self.demonstrator.toMainModule()
+                }
             }
+            
+//            self.apiManager.getFriendList(userID: "gbf48").done { (user) in
+//                print(user)
+//            }
             
         }
         

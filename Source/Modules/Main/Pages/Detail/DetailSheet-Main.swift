@@ -14,9 +14,23 @@ extension Main {
         
         public override func onLayoutReady(layout: DetailLayout) {
             
-            
+//            let friend = self.exchangeFlow.grabSelectedFriend()!
+//            layout.reloadPage(item: friend)
+            layout.iv_back.onTap {
+                self.demonstrator.goBack()
+                layout.goInfo()
+            }
             
         }
+        
+        public override func onLayoutAppear(layout: DetailLayout) {
+            
+            let friend = self.exchangeFlow.grabSelectedFriend()!
+            layout.reloadPage(item: friend)
+            
+        }
+        
+        
         
     }
     

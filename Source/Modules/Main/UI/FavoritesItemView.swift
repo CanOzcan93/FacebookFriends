@@ -1,8 +1,8 @@
 //
-//  ListItemView.swift
+//  FavoritesItemView.swift
 //  FacebookFriends
 //
-//  Created by Can Özcan on 26.02.2020.
+//  Created by Can Özcan on 27.02.2020.
 //  Copyright © 2020 CanOzcan. All rights reserved.
 //
 
@@ -10,11 +10,10 @@ import UIKit
 
 extension Main {
     
-    public class ListItemView : FFListItemView {
+    public class FavoritesItemView : FFListItemView {
         
         
-        private var v_gender: FFView!
-        private var tv_name_age: FFTextView!
+        private var tv_name: FFTextView!
         
         private var isInitialized: Bool = false
         
@@ -52,13 +51,8 @@ extension Main {
             
         }
         
-        public func changeLabels(item: Friend) {
-            if item.gender == "male" {
-                v_gender.backgroundColor = .systemBlue
-            } else {
-                v_gender.backgroundColor = .systemPink
-            }
-            tv_name_age.text = "\(item.name) / \(item.age) "
+        public func changeLabels(item: Favorite) {
+            tv_name.text = "\(item.name) "
         }
         
         public func addAction(onClick: @escaping Action) {
@@ -73,38 +67,18 @@ extension Main {
             
             super.onConstruct(wrapper: wrapper, item: item)
             wrapper.backgroundColor = .white
-            constructGenderCircle(item: item)
             constructTitleTextView(item: item)
 
-        }
-        
-        private func constructGenderCircle(item: FFView) {
-            
-            self.v_gender = FFView()
-            self.v_gender.backgroundColor = .systemPink
-            self.v_gender.clipsToBounds = true
-            self.v_gender.onDraw = { rect in
-                
-                if !self.isInitialized {
-                    
-                    self.v_gender.layer.cornerRadius = rect.height*0.5
-                    self.isInitialized = true
-                    
-                }
-                
-            }
-            
-            item.addSubview(self.v_gender)
-            
         }
 
         private func constructTitleTextView(item: FFView) {
 
-            self.tv_name_age = FFTextView()
-            self.tv_name_age.textColor = colorProvider.getDarkGray()
-            self.tv_name_age.text = "Can Ozcan / 24"
+            self.tv_name = FFTextView()
+            self.tv_name.textColor = colorProvider.getDarkGray()
+            self.tv_name.text = "Can Ozcan"
+            self.tv_name.textAlignment = .center
             
-            item.addSubview(self.tv_name_age)
+            item.addSubview(self.tv_name)
 
         }
 
@@ -121,26 +95,16 @@ extension Main {
             set.append(NSLayoutConstraint(item: item, attribute: .top, relatedBy: .equal, toItem: wrapper, attribute: .top, multiplier: 1, constant: 15))
             set.append(NSLayoutConstraint(item: item, attribute: .bottom, relatedBy: .equal, toItem: wrapper, attribute: .bottom, multiplier: 1, constant: -15))
             
-            constrainGenderCircle(set: &set, wrapper: wrapper, item: item)
             constrainTitleTextView(set: &set, wrapper: wrapper, item: item)
-            
-        }
-        
-        private func constrainGenderCircle(set: inout [NSLayoutConstraint], wrapper: UIView, item: FFView) {
-            
-            set.append(NSLayoutConstraint(item: v_gender, attribute: .left, relatedBy: .equal, toItem: item, attribute: .left, multiplier: 1, constant: 7.5))
-            set.append(NSLayoutConstraint(item: v_gender, attribute: .centerY, relatedBy: .equal, toItem: item, attribute: .centerY, multiplier: 1, constant: 0))
-            set.append(NSLayoutConstraint(item: v_gender, attribute: .height, relatedBy: .equal, toItem: item, attribute: .height, multiplier: 1, constant: -10))
-            set.append(NSLayoutConstraint(item: v_gender, attribute: .width, relatedBy: .equal, toItem: v_gender, attribute: .height, multiplier: 1, constant: 0))
             
         }
         
         private func constrainTitleTextView(set: inout [NSLayoutConstraint], wrapper: UIView, item: FFView) {
 
-            set.append(NSLayoutConstraint(item: tv_name_age, attribute: .centerY, relatedBy: .equal, toItem: item, attribute: .centerY, multiplier: 1, constant: 0))
-            set.append(NSLayoutConstraint(item: tv_name_age, attribute: .left, relatedBy: .equal, toItem: v_gender, attribute: .right, multiplier: 1, constant: 5))
-            set.append(NSLayoutConstraint(item: tv_name_age, attribute: .right, relatedBy: .equal, toItem: item, attribute: .right, multiplier: 1, constant: -5))
-            set.append(NSLayoutConstraint(item: tv_name_age, attribute: .height, relatedBy: .equal, toItem: item, attribute: .height, multiplier: 0.5, constant: 0))
+            set.append(NSLayoutConstraint(item: tv_name, attribute: .centerY, relatedBy: .equal, toItem: item, attribute: .centerY, multiplier: 1, constant: 0))
+            set.append(NSLayoutConstraint(item: tv_name, attribute: .left, relatedBy: .equal, toItem: item, attribute: .left, multiplier: 1, constant: 5))
+            set.append(NSLayoutConstraint(item: tv_name, attribute: .right, relatedBy: .equal, toItem: item, attribute: .right, multiplier: 1, constant: -5))
+            set.append(NSLayoutConstraint(item: tv_name, attribute: .height, relatedBy: .equal, toItem: item, attribute: .height, multiplier: 1, constant: 0))
 
         }
         

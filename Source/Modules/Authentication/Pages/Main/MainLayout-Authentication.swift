@@ -13,7 +13,7 @@ extension Authentication {
     public class MainLayout: FFLayout {
         
         private var iv_logo: FFImageView!
-        private var ti_username: FFTextInput!
+        public var ti_username: FFTextInput!
         public var btn_next: FFButton!
         
         private var isDefined = false
@@ -41,6 +41,7 @@ extension Authentication {
             
             ti_username = FFTextInput()
             ti_username.setPlaceholder(text: "Write Your Username", placeholderColor: self.colorProvider.getPureGray())
+            ti_username.textColor = .black
             ti_username.activateMovement(layout: self)
             ti_username.onDraw = { rect in
                 if !self.isDefined {

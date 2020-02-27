@@ -14,4 +14,20 @@ open class FFExchangeFlow {
         
     }
     
+    private var username: String?
+    public func letUsername(username: String) {
+        self.username = username
+    }
+    public func grabUsername() -> String? {
+        return self.username
+    }
+    
+    private var selectedFriend: Friend?
+    public func letSelectedFriend(friend: Friend) {
+        self.selectedFriend = friend
+    }
+    public func grabSelectedFriend() -> Friend? {
+        return self.selectedFriend
+    }
+    
 }
