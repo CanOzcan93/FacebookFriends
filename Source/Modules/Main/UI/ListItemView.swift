@@ -15,6 +15,7 @@ extension Main {
         
         private var v_gender: FFView!
         private var tv_name_age: FFTextView!
+        private var v_active: FFView!
         
         private var isInitialized: Bool = false
         
@@ -58,6 +59,11 @@ extension Main {
             } else {
                 v_gender.backgroundColor = .systemPink
             }
+            if item.isActive {
+                v_active.backgroundColor = .green
+            } else {
+                v_active.backgroundColor = .red
+            }
             tv_name_age.text = "\(item.name) / \(item.age) "
         }
         
@@ -73,6 +79,8 @@ extension Main {
             
             super.onConstruct(wrapper: wrapper, item: item)
             wrapper.backgroundColor = .white
+            
+            constructActiveCircle(item: item)
             constructGenderCircle(item: item)
             constructTitleTextView(item: item)
 
@@ -88,7 +96,6 @@ extension Main {
                 if !self.isInitialized {
                     
                     self.v_gender.layer.cornerRadius = rect.height*0.5
-                    self.isInitialized = true
                     
                 }
                 
@@ -107,6 +114,26 @@ extension Main {
             item.addSubview(self.tv_name_age)
 
         }
+        
+        private func constructActiveCircle(item: FFView) {
+            
+            self.v_active = FFView()
+            self.v_active.backgroundColor = .red
+            self.v_active.clipsToBounds = true
+            self.v_active.onDraw = { rect in
+                
+                if !self.isInitialized {
+                    
+                    self.v_active.layer.cornerRadius = rect.height*0.5
+                    self.isInitialized = true
+                    
+                }
+                
+            }
+            
+            item.addSubview(self.v_active)
+            
+        }
 
 
         
@@ -123,6 +150,7 @@ extension Main {
             
             constrainGenderCircle(set: &set, wrapper: wrapper, item: item)
             constrainTitleTextView(set: &set, wrapper: wrapper, item: item)
+            constrainActiveCircle(set: &set, wrapper: wrapper, item: item)
             
         }
         
@@ -139,8 +167,17 @@ extension Main {
 
             set.append(NSLayoutConstraint(item: tv_name_age, attribute: .centerY, relatedBy: .equal, toItem: item, attribute: .centerY, multiplier: 1, constant: 0))
             set.append(NSLayoutConstraint(item: tv_name_age, attribute: .left, relatedBy: .equal, toItem: v_gender, attribute: .right, multiplier: 1, constant: 5))
-            set.append(NSLayoutConstraint(item: tv_name_age, attribute: .right, relatedBy: .equal, toItem: item, attribute: .right, multiplier: 1, constant: -5))
+            set.append(NSLayoutConstraint(item: tv_name_age, attribute: .right, relatedBy: .equal, toItem: item, attribute: .right, multiplier: 1, constant: -25))
             set.append(NSLayoutConstraint(item: tv_name_age, attribute: .height, relatedBy: .equal, toItem: item, attribute: .height, multiplier: 0.5, constant: 0))
+
+        }
+        
+        private func constrainActiveCircle(set: inout [NSLayoutConstraint], wrapper: UIView, item: FFView) {
+
+            set.append(NSLayoutConstraint(item: v_active, attribute: .centerY, relatedBy: .equal, toItem: item, attribute: .centerY, multiplier: 1, constant: 0))
+            set.append(NSLayoutConstraint(item: v_active, attribute: .width, relatedBy: .equal, toItem: v_active, attribute: .height, multiplier: 1, constant: 0))
+            set.append(NSLayoutConstraint(item: v_active, attribute: .right, relatedBy: .equal, toItem: item, attribute: .right, multiplier: 1, constant: -5))
+            set.append(NSLayoutConstraint(item: v_active, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 0, constant: 10))
 
         }
         

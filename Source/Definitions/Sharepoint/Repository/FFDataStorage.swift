@@ -7,10 +7,30 @@
 //
 
 import Foundation
+import RealmSwift
 
 open class FFDataStorage {
     
     public required init() {
+        
+    }
+    
+    private var database: Realm?
+    public func getDatabase() -> Realm? {
+        
+        if let db = database {
+            return db
+        }
+        else {
+            do {
+                try database = Realm()
+                print(Realm.Configuration.defaultConfiguration.fileURL)
+                return database!
+            } catch {
+                print("Error About Realm")
+                return nil
+            }
+        }
         
     }
     

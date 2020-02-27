@@ -43,6 +43,8 @@ extension Main {
 
                     self.item.layer.insertSublayer(layer, at: 0)
                     
+                    self.isInitialized = true
+                    
                 }
 
             }

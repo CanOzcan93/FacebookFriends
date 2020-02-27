@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 extension Main {
     
@@ -14,21 +15,39 @@ extension Main {
         
         public override func onLayoutReady(layout: MainLayout) {
             
-            
-            self.apiManager.getFriendList(userID: self.exchangeFlow.grabUsername()!).done { (user) in
-                var items = [ListItemView]()
-                for friend in user.friendList {
-                    let listItem = ListItemView()
-                    listItem.changeLabels(item: friend)
-                    listItem.addAction {
-                        self.exchangeFlow.letSelectedFriend(friend: friend)
-                        self.demonstrator.toDetailSheet()
-                    }
-                    items.append(listItem)
+            if let db = self.dataStorage.getDatabase() {
+                if let user = db.object(ofType: User.self, forPrimaryKey:self.exchangeFlow.grabUsername()!) {
+                    reloadData(user: user,layout: layout)
                 }
-                layout.lv.replaceItems(items)
             }
             
+            self.apiManager.getFriendList(userID: self.exchangeFlow.grabUsername()!).done { (user) in
+                
+                if let db = self.dataStorage.getDatabase() {
+                    do {
+                        try db.write {
+                            db.add(user, update: .all)
+                            self.reloadData(user: user, layout: layout)
+                        }
+                    } catch {
+                        print("Error updating User")
+                    }
+                }
+            }
+        }
+        
+        private func reloadData(user: User, layout: MainLayout) {
+            var items = [ListItemView]()
+            for friend in user.friendList {
+                let listItem = ListItemView()
+                listItem.changeLabels(item: friend)
+                listItem.addAction {
+                    self.exchangeFlow.letSelectedFriend(friend: friend)
+                    self.demonstrator.toDetailSheet()
+                }
+                items.append(listItem)
+            }
+            layout.lv.replaceItems(items)
         }
         
     }
