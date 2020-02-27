@@ -15,6 +15,15 @@ extension Main {
         public override func onLayoutReady(layout: MainLayout) {
             
             
+            var items = [ListItemView(),ListItemView(),ListItemView()]
+            for item in items {
+                item.addAction {
+                    item.addAction {
+                        self.demonstrator.toDetailSheet()
+                    }
+                }
+            }
+            layout.lv.replaceItems(items)
             
         }
         

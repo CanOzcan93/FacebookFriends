@@ -47,14 +47,14 @@ extension Main {
 
         }
 
-//        public func toDetailSheet() {
-//
-//            sheet = sheetFactory.getDetailSheet()
-//            transition = transitionFactory.getFromRightToLeft()
-//
-//            present()
-//
-//        }
+        public func toDetailSheet() {
+
+            sheet = sheetFactory.getDetailSheet()
+            transition = transitionFactory.getFromRightToLeft()
+
+            present()
+
+        }
         
     }
     

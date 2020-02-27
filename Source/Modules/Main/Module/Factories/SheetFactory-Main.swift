@@ -24,17 +24,17 @@ extension Main {
 
         }
         
-//        private var detailSheet: DetailSheet?
-//        public func getDetailSheet() -> DetailSheet {
-//
-//            guard detailSheet != nil else {
-//                detailSheet = DetailSheet()
-//                return detailSheet!
-//            }
-//
-//            return detailSheet!
-//
-//        }
+        private var detailSheet: DetailSheet?
+        public func getDetailSheet() -> DetailSheet {
+
+            guard detailSheet != nil else {
+                detailSheet = DetailSheet()
+                return detailSheet!
+            }
+
+            return detailSheet!
+
+        }
         
         
     }

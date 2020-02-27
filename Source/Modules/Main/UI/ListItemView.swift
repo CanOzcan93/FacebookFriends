@@ -14,10 +14,8 @@ extension Main {
     public class ListItemView : FFListItemView {
         
         
-        private var iv_image: FFImageView!
-                
-        private var tv_title: FFTextView!
-        private var tv_subtitle: FFTextView!
+        private var v_gender: FFView!
+        private var tv_name_age: FFTextView!
         
         private var isInitialized: Bool = false
         
@@ -46,8 +44,7 @@ extension Main {
                     layer.shadowRadius = 8
 
                     self.item.layer.insertSublayer(layer, at: 0)
-
-                    self.isInitialized = true
+                    
                 }
 
             }
@@ -73,40 +70,40 @@ extension Main {
         public override func onConstruct(wrapper: UIView, item: FFView) {
             
             super.onConstruct(wrapper: wrapper, item: item)
-            wrapper.backgroundColor = colorProvider.getNormalBlue()
+            wrapper.backgroundColor = .white
             constructImage(item: item)
             constructTitleTextView(item: item)
-            constructSubtitleTextView(item: item)
 
         }
         
         private func constructImage(item: FFView) {
             
-            self.iv_image = FFImageView()
-            self.iv_image.backgroundColor = colorProvider.getGrayLightest()
+            self.v_gender = FFView()
+            self.v_gender.backgroundColor = .systemPink
+            self.v_gender.clipsToBounds = true
+            self.v_gender.onDraw = { rect in
+                
+                if !self.isInitialized {
+                    
+                    self.v_gender.layer.cornerRadius = rect.height*0.5
+                    self.isInitialized = true
+                    
+                }
+                
+            }
             
-            item.addSubview(self.iv_image)
+            item.addSubview(self.v_gender)
             
         }
 
         private func constructTitleTextView(item: FFView) {
 
-            self.tv_title = FFTextView()
-            self.tv_title.textColor = colorProvider.getDarkGray()
-            self.tv_title.numberOfLines = 2
+            self.tv_name_age = FFTextView()
+            self.tv_name_age.textColor = colorProvider.getDarkGray()
+            self.tv_name_age.text = "Can Ozcan / 24"
             
-            item.addSubview(self.tv_title)
+            item.addSubview(self.tv_name_age)
 
-        }
-
-        private func constructSubtitleTextView(item: FFView) {
-            
-            self.tv_subtitle = FFTextView()
-            self.tv_subtitle.textColor = colorProvider.getDarkGray()
-            self.tv_subtitle.numberOfLines = 2
-            
-            item.addSubview(self.tv_subtitle)
-            
         }
 
 
@@ -115,7 +112,7 @@ extension Main {
             
             super.onConstrain(set: &set, wrapper: wrapper, item: item)
             
-            set.append(NSLayoutConstraint(item: wrapper, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 0, constant: 120))
+            set.append(NSLayoutConstraint(item: wrapper, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 0, constant: 80))
             
             set.append(NSLayoutConstraint(item: item, attribute: .width, relatedBy: .equal, toItem: wrapper, attribute: .width, multiplier: 1, constant: -10))
             set.append(NSLayoutConstraint(item: item, attribute: .centerX, relatedBy: .equal, toItem: wrapper, attribute: .centerX, multiplier: 1, constant: 0))
@@ -124,35 +121,24 @@ extension Main {
             
             constrainImage(set: &set, wrapper: wrapper, item: item)
             constrainTitleTextView(set: &set, wrapper: wrapper, item: item)
-            constrainSubtitleTextView(set: &set, wrapper: wrapper, item: item)
             
         }
         
         private func constrainImage(set: inout [NSLayoutConstraint], wrapper: UIView, item: FFView) {
             
-            set.append(NSLayoutConstraint(item: iv_image, attribute: .left, relatedBy: .equal, toItem: item, attribute: .left, multiplier: 1, constant: 7.5))
-            set.append(NSLayoutConstraint(item: iv_image, attribute: .top, relatedBy: .equal, toItem: item, attribute: .top, multiplier: 1, constant: 5))
-            set.append(NSLayoutConstraint(item: iv_image, attribute: .bottom, relatedBy: .equal, toItem: item, attribute: .bottom, multiplier: 1, constant: -5))
-            set.append(NSLayoutConstraint(item: iv_image, attribute: .width, relatedBy: .equal, toItem: iv_image, attribute: .height, multiplier: 1, constant: 0))
+            set.append(NSLayoutConstraint(item: v_gender, attribute: .left, relatedBy: .equal, toItem: item, attribute: .left, multiplier: 1, constant: 7.5))
+            set.append(NSLayoutConstraint(item: v_gender, attribute: .centerY, relatedBy: .equal, toItem: item, attribute: .centerY, multiplier: 1, constant: 0))
+            set.append(NSLayoutConstraint(item: v_gender, attribute: .height, relatedBy: .equal, toItem: item, attribute: .height, multiplier: 1, constant: -10))
+            set.append(NSLayoutConstraint(item: v_gender, attribute: .width, relatedBy: .equal, toItem: v_gender, attribute: .height, multiplier: 1, constant: 0))
             
         }
         
         private func constrainTitleTextView(set: inout [NSLayoutConstraint], wrapper: UIView, item: FFView) {
 
-            set.append(NSLayoutConstraint(item: tv_title, attribute: .top, relatedBy: .equal, toItem: item, attribute: .top, multiplier: 1, constant: 4))
-            set.append(NSLayoutConstraint(item: tv_title, attribute: .left, relatedBy: .equal, toItem: iv_image, attribute: .right, multiplier: 1, constant: 5))
-            set.append(NSLayoutConstraint(item: tv_title, attribute: .right, relatedBy: .equal, toItem: item, attribute: .right, multiplier: 1, constant: -5))
-            set.append(NSLayoutConstraint(item: tv_title, attribute: .height, relatedBy: .equal, toItem: item, attribute: .height, multiplier: 0.5, constant: 0))
-
-        }
-
-        private func constrainSubtitleTextView(set: inout [NSLayoutConstraint], wrapper: UIView, item: FFView) {
-
-            set.append(NSLayoutConstraint(item: tv_subtitle, attribute: .bottom, relatedBy: .equal, toItem: item, attribute: .bottom, multiplier: 1, constant: -4))
-            set.append(NSLayoutConstraint(item: tv_subtitle, attribute: .left, relatedBy: .equal, toItem: iv_image, attribute: .right, multiplier: 1, constant: 5))
-            set.append(NSLayoutConstraint(item: tv_subtitle, attribute: .right, relatedBy: .equal, toItem: item, attribute: .right, multiplier: 1, constant: -5))
-            set.append(NSLayoutConstraint(item: tv_subtitle, attribute: .height, relatedBy: .equal, toItem: item, attribute: .height, multiplier: 0.5, constant: 0))
-            
+            set.append(NSLayoutConstraint(item: tv_name_age, attribute: .centerY, relatedBy: .equal, toItem: item, attribute: .centerY, multiplier: 1, constant: 0))
+            set.append(NSLayoutConstraint(item: tv_name_age, attribute: .left, relatedBy: .equal, toItem: v_gender, attribute: .right, multiplier: 1, constant: 5))
+            set.append(NSLayoutConstraint(item: tv_name_age, attribute: .right, relatedBy: .equal, toItem: item, attribute: .right, multiplier: 1, constant: -5))
+            set.append(NSLayoutConstraint(item: tv_name_age, attribute: .height, relatedBy: .equal, toItem: item, attribute: .height, multiplier: 0.5, constant: 0))
 
         }
         

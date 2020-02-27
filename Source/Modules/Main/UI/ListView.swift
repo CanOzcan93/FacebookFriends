@@ -13,7 +13,7 @@ extension Main {
     public class ListView: FFListView<ListItemView> {
         
         public override func onInit() {
-            self.backgroundColor = .clear
+            self.backgroundColor = .white
         }
         
         public override func emptyMessage() -> String {
