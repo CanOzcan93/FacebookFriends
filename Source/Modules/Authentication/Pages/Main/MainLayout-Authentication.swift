@@ -60,7 +60,7 @@ extension Authentication {
                     layer.shadowRadius = 8
 
                     self.ti_username.layer.insertSublayer(layer, at: 0)
-
+                    self.isDefined = true
                 }
             }
             self.addSubview(ti_username)

@@ -13,7 +13,11 @@ extension Main {
     
     public class MainSheet: Sheet<MainLayout> {
         
-        public override func onLayoutReady(layout: MainLayout) {
+        public override func onLayoutAppear(layout: MainLayout) {
+            
+            layout.tv_logout.onTap {
+                self.demonstrator.goBack()
+            }
             
             if let db = self.dataStorage.getDatabase() {
                 if let user = db.object(ofType: User.self, forPrimaryKey:self.exchangeFlow.grabUsername()!) {
